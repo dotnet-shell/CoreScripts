@@ -1,7 +1,7 @@
 // description: Provides Bash-like 'fg' command
 // author: @therealshodan
 using System.Drawing;
-using CSXShell.UI;
+using Dotnet.Shell.UI;
 
 void BashForegroundCmd(string args)
 {

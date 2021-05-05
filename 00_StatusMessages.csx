@@ -2,7 +2,7 @@
 // author: @therealshodan
 using System.Drawing;
 using System.Collections.Concurrent;
-using CSXShell.UI;
+using Dotnet.Shell.UI;
 
 var statusMessages = new ConcurrentQueue<ColorString>();
 

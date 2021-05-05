@@ -1,7 +1,7 @@
 // description: Provides a function to print StdOut nicely
 // author: @therealshodan
 using System.Drawing;
-using CSXShell.UI;
+using Dotnet.Shell.UI;
 
 void PrettyPrint(string str, bool firstLineIsHeader=false)
 {
