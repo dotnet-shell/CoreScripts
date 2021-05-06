@@ -28,11 +28,11 @@ _ = Task.Run(async () =>
         var versions = await resource.GetAllVersionsAsync("dotnet-shell", cache, NullLogger.Instance, CancellationToken.None);
         var latest = versions.Where(x => !x.IsPrerelease).OrderByDescending(x => x.Version).First();
         var latestVersion = versions.Where(x => !x.IsPrerelease).OrderByDescending(x => x.Version).First();
-        var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+        var currentVersion = Assembly.GetEntryAssembly().GetName().Version;
 
         if (latestVersion.ToFullString() != currentVersion.ToString())
         {
-            StatusMessage(string.Format("New version ({0}) available, run 'dotnet tool update -g csxshell' to upgrade from {1}", latestVersion, currentVersion), "VersionCheck");
+            StatusMessage(string.Format("New version ({0}) available, run 'dotnet tool update -g dotnet-shell' to upgrade from {1}", latestVersion, currentVersion), "VersionCheck");
         }
     }
     catch (Exception ex)
