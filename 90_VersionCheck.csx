@@ -30,7 +30,7 @@ _ = Task.Run(async () =>
         var latestVersion = versions.Where(x => !x.IsPrerelease).OrderByDescending(x => x.Version).First();
         var currentVersion = Assembly.GetEntryAssembly().GetName().Version;
 
-        if (latestVersion.ToFullString() != currentVersion.ToString())
+        if (!currentVersion.ToString().StartsWith(latestVersion.ToString()))
         {
             StatusMessage(string.Format("New version ({0}) available, run 'dotnet tool update -g dotnet-shell' to upgrade from {1}", latestVersion, currentVersion), "VersionCheck");
         }
