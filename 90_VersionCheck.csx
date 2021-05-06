@@ -14,12 +14,18 @@ using NuGet.Protocol;
 // user a shell
 _ = Task.Run(async () => 
 {
+    var updateCheckFile = new FileInfo(Path.Combine(Shell.HomeDirectory, ".nsh", ".updatecheck"));
+    if (updateCheckFile.Exists && DateTime.UtcNow - updateCheckFile.LastAccessTime < TimeSpan.FromDays(1))
+    {
+        return;
+    }
+
     try
     {
         var cache = new SourceCacheContext();
         var repository = Repository.Factory.GetCoreV3("https://api.nuget.org/v3/index.json");
         var resource = await repository.GetResourceAsync<FindPackageByIdResource>();
-        var versions = await resource.GetAllVersionsAsync("Newtonsoft.Json", cache, NullLogger.Instance, CancellationToken.None);
+        var versions = await resource.GetAllVersionsAsync("dotnet-shell", cache, NullLogger.Instance, CancellationToken.None);
         var latest = versions.Where(x => !x.IsPrerelease).OrderByDescending(x => x.Version).First();
         var latestVersion = versions.Where(x => !x.IsPrerelease).OrderByDescending(x => x.Version).First();
         var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
@@ -33,4 +39,6 @@ _ = Task.Run(async () =>
     {
         StatusMessage(ex.Message, "VersionCheck");
     }
+
+    await File.AppendAllTextAsync(updateCheckFile.FullName, ".");
 });
